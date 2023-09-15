@@ -76,7 +76,11 @@ do_action('custom_run_woocommerce_checkout_coupon_form', $checkout);
 					<div class="x_body">
 						<div class="x_row">
 							<span class="x_xhead">Zahlungsmethode</span>
-							<span class="payment_methd value_x">Paypal</span>
+							<span class="payment_methd value_x" style="
+    display: flex;
+    align-content: center;
+    align-items: center;
+">Paypal</span>
 						</div>
 					</div>
 				</div>

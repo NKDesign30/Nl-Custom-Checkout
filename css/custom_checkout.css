@@ -191,9 +191,10 @@ img.product_check_image {
     display: flex;
     gap: 20px;
     margin-bottom: 5px;
+    align-items: center;
 }
 span.address_x.value_x {
-    max-width: 180px;
+    max-width: 300px;
 }
 .x_gap {
     display: block;

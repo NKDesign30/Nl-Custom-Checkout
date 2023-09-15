@@ -391,13 +391,40 @@ jQuery(document).ready(function($) {
     
     // Set an interval to check every second
     setInterval(updateTopValue, 1000);
-    // Rename
-    setInterval(function() {
-        $('.payment_methd.value_x').each(function() {
-            if ($(this).text().trim() === 'bacs') {
-                $(this).text('Vorkasse');
-            }
-        });
-    }, 1000); // Überprüfen Sie alle 1 Sekunde
 
+    var targetNode = document.body; // Überwachen Sie den gesamten body
+    var config = { childList: true, subtree: true }; // Konfiguration für den Observer
+    
+    var callback = function(mutationsList, observer) {
+        for(var mutation of mutationsList) {
+            if (mutation.type === 'childList') {
+                $('.payment_methd.value_x').each(function() {
+                    var paymentMethod = $(this).text().trim();
+                    switch (paymentMethod) {
+                        case 'bacs':
+                            $(this).text('Vorkasse');
+                            break;
+                        case 'klarna_payments_pay_later':
+                            $(this).html('Rechnung <img src="https://staging.neurolab-vital.de/wp-content/plugins/klarna-payments-for-woocommerce/assets/img/klarna-logo.svg" alt="Klarna" style="max-width:39px;margin-left: 20px;">');
+                            break;
+                        case 'klarna_payments_pay_over_time':
+                            $(this).html('Rechnung aufteilen <img src="https://staging.neurolab-vital.de/wp-content/plugins/klarna-payments-for-woocommerce/assets/img/klarna-logo.svg" alt="Klarna" style="max-width:39px;margin-left: 20px;">');
+                            break;
+                        case 'klarna_payments_pay_now':
+                            $(this).html('Sofort bezahlen <img src="https://staging.neurolab-vital.de/wp-content/plugins/klarna-payments-for-woocommerce/assets/img/klarna-logo.svg" alt="Klarna" style="max-width:39px;margin-left: 20px;">');
+                            break;
+                        case 'ppcp-gateway':
+                            $(this).text('PayPal');
+                            break;
+                        // Fügen Sie hier bei Bedarf weitere Bedingungen hinzu
+                    }
+                });
+            }
+        }
+    };
+    
+    var observer = new MutationObserver(callback);
+    observer.observe(targetNode, config);
+    
+    
 });
