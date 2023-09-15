@@ -391,5 +391,14 @@ jQuery(document).ready(function($) {
     
     // Set an interval to check every second
     setInterval(updateTopValue, 1000);
+    // Rename
+    document.addEventListener('DOMContentLoaded', function() {
+        var paymentMethods = document.querySelectorAll('.payment_methd.value_x');
+        paymentMethods.forEach(function(method) {
+            if (method.textContent.trim() === 'bacs') {
+                method.textContent = 'Vorkasse';
+            }
+        });
+    });
 
 });
