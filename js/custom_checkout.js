@@ -431,3 +431,31 @@ jQuery(document).ready(function($) {
 
 
 });
+jQuery(document).ready(function($) {
+    function checkMandatoryFields() {
+        var allFilled = true;
+        $('.mandatory').each(function() { // Ersetzen Sie '.mandatory' durch die tatsächliche Klasse Ihrer Pflichtfelder
+            if ($(this).val() === '') {
+                allFilled = false;
+                return false;
+            }
+        });
+        return allFilled;
+    }
+
+    function updateContinueButtonStatus() {
+        if (checkMandatoryFields()) {
+            $('#step_btn_x, #step_btn_x_m').prop('disabled', false);
+        } else {
+            $('#step_btn_x, #step_btn_x_m').prop('disabled', true);
+        }
+    }
+
+    // Überprüfen Sie den Status der Pflichtfelder bei jeder Eingabe
+    $('.mandatory').on('input', function() {
+        updateContinueButtonStatus();
+    });
+
+    // Initialer Check beim Laden der Seite
+    updateContinueButtonStatus();
+});
