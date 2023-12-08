@@ -84,18 +84,23 @@ do_action('custom_run_woocommerce_checkout_coupon_form', $checkout);
 						</div>
 					</div>
 				</div>
+
 				<div class="s_box">
 					<div class="xbox_header">
 						<h5 class="xbox_title">Coupon's</h5>
 						<a href="#" id="edit_payment" class="ex_edit edit_payment">Coupon bearbeiten</a>
 					</div>
 					<div class="x_body">
-						<div class="x_row">
-							<span class="x_xhead">Coupon Code</span>
-							<span class="coupon_Code value_x">Xhd90</span>
-						</div>
+						<?php foreach (WC()->cart->get_coupons() as $code => $coupon) : ?>
+							<div class="x_row">
+								<span class="x_xhead"><?php wc_cart_totals_coupon_label($coupon); ?></span>
+								<span class="coupon_discount value_x"><?php wc_cart_totals_coupon_html($coupon); ?></span>
+							</div>
+						<?php endforeach; ?>
 					</div>
 				</div>
+
+
 				<div class="s_box">
 					<div class="xbox_header">
 						<h5 class="xbox_title">Rechnungsadresse</h5>
@@ -118,7 +123,7 @@ do_action('custom_run_woocommerce_checkout_coupon_form', $checkout);
 				<div class="ppc-button-wrapper">
 					<div id="ppc-button-ppcp-gateway"></div>
 				</div>
-				<span class="next_step billing_form step_btn" id="step_btn_x">Weiter ></span>
+				<span class="next_step billing_form step_btn" id="step_btn_x" disabled>Weiter ></span>
 			</div>
 
 
@@ -161,9 +166,31 @@ do_action('custom_run_woocommerce_checkout_coupon_form', $checkout);
 		</div>
 	</div>
 	<div class="slide_btn_cont hide_onpc">
-		<span class="next_step billing_form step_btn" id="step_btn_x_m">Weiter ></span>
+		<span class="next_step billing_form step_btn" id="step_btn_x_m" disabled>Weiter ></span>
 	</div>
 
 </form>
 
 <?php do_action('woocommerce_after_checkout_form', $checkout); ?>
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		var weiterButtonDesktop = document.getElementById('step_btn_x');
+		var weiterButtonMobile = document.getElementById('step_btn_x_m');
+		var felder = document.querySelectorAll('.woocommerce-billing-fields__field-wrapper .input-text, .woocommerce-additional-fields__field-wrapper .input-text');
+
+		function aktualisiereButtonStatus() {
+			var alleFelderAusgefuellt = Array.from(felder).every(function(feld) {
+				return feld.value.trim() !== '';
+			});
+
+			weiterButtonDesktop.disabled = !alleFelderAusgefuellt;
+			weiterButtonMobile.disabled = !alleFelderAusgefuellt;
+		}
+
+		felder.forEach(function(feld) {
+			feld.addEventListener('input', aktualisiereButtonStatus);
+		});
+
+		aktualisiereButtonStatus();
+	});
+</script>

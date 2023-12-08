@@ -430,3 +430,39 @@ function save_address_data() {
 add_action('wp_ajax_save_address_data', 'save_address_data');
 add_action('wp_ajax_nopriv_save_address_data', 'save_address_data');
 */
+
+// AJAX-Handler, um den aktuellen Warenkorb-Gesamtbetrag und die Schwellenwerte zu erhalten
+add_action('wp_ajax_get_cart_total_and_thresholds', 'get_cart_total_and_thresholds_callback');
+add_action('wp_ajax_nopriv_get_cart_total_and_thresholds', 'get_cart_total_and_thresholds_callback');
+
+function get_cart_total_and_thresholds_callback() {
+    if (class_exists('WC_Cart')) {
+        $cart_total = WC()->cart->get_cart_contents_total();
+        $thresholds_data = get_option('wc_progress_bar_discount_thresholds', []);
+        $thresholds = array_map(function($threshold) {
+            return $threshold['amount'];
+        }, $thresholds_data);
+        wp_send_json_success(['cart_total' => $cart_total, 'thresholds' => $thresholds]);
+    } else {
+        wp_send_json_error(['message' => 'WooCommerce Cart not found.']);
+    }
+}
+function add_font_awesome() {
+    wp_enqueue_style('font-awesome', 'https://use.fontawesome.com/releases/v5.15.4/css/all.css');
+}
+add_action('wp_enqueue_scripts', 'add_font_awesome');
+
+
+// BEGIN ENQUEUE PARENT ACTION
+// AUTO GENERATED - Do not modify or remove comment markers above or below:
+
+if ( !function_exists( 'chld_thm_cfg_locale_css' ) ):
+    function chld_thm_cfg_locale_css( $uri ){
+        if ( empty( $uri ) && is_rtl() && file_exists( get_template_directory() . '/rtl.css' ) )
+            $uri = get_template_directory_uri() . '/rtl.css';
+        return $uri;
+    }
+endif;
+add_filter( 'locale_stylesheet_uri', 'chld_thm_cfg_locale_css' );
+
+// END ENQUEUE PARENT ACTION

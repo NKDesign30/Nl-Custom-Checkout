@@ -54,3 +54,27 @@ defined('ABSPATH') || exit;
 		<?php do_action('woocommerce_after_checkout_billing_form', $checkout); ?>
 	</div>
 </div>
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		var weiterButton = document.getElementById('step_btn_x');
+
+		weiterButton.addEventListener('click', function(e) {
+			var alleFelderAusgefuellt = true;
+			var felder = document.querySelectorAll('.woocommerce-billing-fields__field-wrapper .input-text, .woocommerce-additional-fields__field-wrapper .input-text');
+
+			felder.forEach(function(feld) {
+				if (!feld.value) {
+					alleFelderAusgefuellt = false;
+					feld.style.borderColor = 'red'; // Optional: Markieren Sie das Feld rot
+				} else {
+					feld.style.borderColor = ''; // Entfernen Sie die Markierung, wenn das Feld ausgefüllt ist
+				}
+			});
+
+			if (!alleFelderAusgefuellt) {
+				e.preventDefault(); // Verhindern Sie das Weiterklicken
+				alert('Bitte füllen Sie alle erforderlichen Felder aus.');
+			}
+		});
+	});
+</script>

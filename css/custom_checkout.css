@@ -149,7 +149,7 @@ line-height: 42px!important;
 }
 .custom-order-dt table tfoot th , .custom-order-dt table tfoot td {
     border-bottom: 0!important;
-    border-top: 1px solid #c7c7c769!important;
+    border-top: 0px solid #c7c7c769!important;
 }
 .custom-order-dt table.shop_table.woocommerce-checkout-review-order-table {
     margin-bottom: 0!important;
@@ -287,6 +287,7 @@ form.custom_coupon_form.checkout_coupon.woocommerce-form-coupon {
 span.x_xhead {
     color: #00000096;
     font-weight: 500;
+    width: fit-content;
 }
 .custom_c_sections .col-1{
     width: 100%!important;
@@ -395,4 +396,11 @@ ul.wc_payment_methods.payment_methods.methods {
     margin-top: 15px;
     width: 90%!important;
     font-size: 12px;
+}
+.custom-order-dt table tfoot th, .custom-order-dt table tfoot td {
+    border-bottom: 0!important;
+    border-top: 0px solid #c7c7c769!important;
+}
+.fee td .woocommerce-Price-amount {
+    color: red;
 }

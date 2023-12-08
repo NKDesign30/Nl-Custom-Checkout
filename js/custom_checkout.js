@@ -297,6 +297,10 @@ jQuery(document).ready(function($) {
             });
 
             $('.payment_methd').html(selectedPaymentMethod);
+            if(selectedPaymentMethod == 'ppcp-gateway'){
+                $('.final_checkout').hide();
+                $('.ppc-button-wrapper').show();
+            }
             // $('.payment_step').removeClass('active');
             $('.final_step').addClass('active');
             if($(window).width() < 650){
@@ -305,23 +309,7 @@ jQuery(document).ready(function($) {
 
 
         }else if($(this).hasClass('final_checkout')){
-            const paymentMethodRadios = document.querySelectorAll('input[name="payment_method"]');
-            let selectedPaymentMethod = '';
-            // Loop through the radio inputs to find the selected one
-            paymentMethodRadios.forEach(function(radio) {
-                if (radio.checked) {
-                    selectedPaymentMethod = radio.value;
-                }
-            });
-            console.log(selectedPaymentMethod);
-            if(selectedPaymentMethod == 'ppcp-gateway'){
-                $('.component-frame').contents().find('.paypal-button').click();
-                console.log($('.component-frame').contents().find('.paypal-button'));
-                console.log($('.component-frame').contents());
-                console.log($('.component-frame'));
-            }else{
-                $('#custom_checkout_x #place_order').click();
-            }
+            $('#place_order').click();
             // $('.coupon_cont').hide();
             // $(this).html("Next >");
             // $('.billing_step').addClass('active');
@@ -330,6 +318,8 @@ jQuery(document).ready(function($) {
         }
     });
     $('.edit_payment').on('click', function(e) {
+        $('.final_checkout').show();
+        $('.ppc-button-wrapper').hide();
         $('.final_step').removeClass('active');
         $('.custom_c_sections #customer_details').hide();
         $('.payment_select_slide').show();
@@ -344,6 +334,8 @@ jQuery(document).ready(function($) {
         $('#step_btn_x , #step_btn_x_m').addClass('paymentmethod');
     })
     $('#edit_address').on('click', function(e) {
+        $('.final_checkout').show();
+        $('.ppc-button-wrapper').hide();
         $('.final_step').removeClass('active');
         $('.payment_step').removeClass('active');
         $('.custom_c_sections #customer_details').show();
@@ -426,5 +418,16 @@ jQuery(document).ready(function($) {
     var observer = new MutationObserver(callback);
     observer.observe(targetNode, config);
     
+    // Code zum Scrollen nach oben, wenn auf die Schaltflächen mit den IDs geklickt wird
+    document.getElementById('step_btn_x').addEventListener('click', function() {
+        window.scrollTo(0, 0);
+    });
+
+    document.getElementById('step_btn_x_m').addEventListener('click', function() {
+        window.scrollTo(0, 0);
+    });
     
+
+
+
 });
